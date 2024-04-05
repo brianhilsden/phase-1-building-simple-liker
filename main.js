@@ -4,25 +4,29 @@ const FULL_HEART = "♥";
 
 // Your JavaScript code goes here!
 
-const likes = document.querySelectorAll(".like-glyph");
+const likes = document.querySelectorAll(".like-glyph"); //store the hearts class 
+
+/*Adds event listeners to every heart/like and calls the server*/
 likes.forEach((like) => {
   like.addEventListener("click", () => {
     mimicServerCall()
-      .then(() => {
-        if (like.textContent === EMPTY_HEART) {
+      .then(() => { //runs if the server returns positive response
+
+        //changes contents and class of heart depending on whether it was full or empty
+        if (like.textContent === EMPTY_HEART) { 
           like.textContent = FULL_HEART;
           like.classList.add("activated-heart");
-        } else {
+        } else { 
           like.textContent = EMPTY_HEART;
           like.classList.remove("activated-heart");
         }
       })
-      .catch((error) => {
+      .catch((error) => { //runs if there is a server error
         const hidden = document.getElementById("modal");
         const message = document.getElementById("modal-message");
-        hidden.classList.remove("hidden");
-        message.textContent = error;
-        setTimeout(() => {
+        message.textContent = error; //adds the specific server error to me message content
+        hidden.classList.remove("hidden"); //removes hidden class hence displaying error message
+        setTimeout(() => { //displays the error message for only 3 seconds then hides it again
           hidden.classList.add("hidden");
         }, 3000);
       });
